@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using W9_assignment_template.Data;
+using W9_assignment_template.Models;
 
 namespace W9_assignment_template.Services;
 
@@ -18,7 +19,8 @@ public class Menu
         {
             Console.WriteLine("1. Display Rooms");
             Console.WriteLine("2. Display Characters");
-            Console.WriteLine("3. Exit");
+            Console.WriteLine("3. Use Abilities");
+            Console.WriteLine("4. Exit");
             Console.Write("Enter your choice: ");
 
             var choice = Console.ReadLine();
@@ -32,6 +34,9 @@ public class Menu
                     DisplayCharacters();
                     break;
                 case "3":
+                    UseAbilities();
+                    break;
+                case "4":
                     return;
                 default:
                     Console.WriteLine("Invalid option, please try again.");
@@ -63,11 +68,24 @@ public class Menu
             foreach (var character in characters)
             {
                 Console.WriteLine($"Character ID: {character.Id}, Name: {character.Name}, Level: {character.Level}, Room ID: {character.RoomId}");
+                Console.WriteLine($"\tAbilities: {string.Join(", ", character.Abilities.Select(a => a.Name))}");
             }
         }
         else
         {
             Console.WriteLine("No characters available.");
+        }
+    }
+
+    public void UseAbilities()
+    {
+        var characters = _gameContext.Characters.ToList();
+        foreach (Character character in characters)
+        {
+            foreach (var ability in character.Abilities)
+            {
+                character.ExecuteAbility(ability);
+            }
         }
     }
 

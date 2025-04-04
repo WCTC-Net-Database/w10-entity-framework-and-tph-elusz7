@@ -13,5 +13,7 @@ namespace W9_assignment_template.Models
         public int Level { get; set; }
 
         void Attack(ICharacter target);
+
+        void ExecuteAbility(Ability ability);
     }
 }

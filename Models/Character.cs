@@ -1,4 +1,6 @@
-﻿namespace W9_assignment_template.Models;
+﻿using Microsoft.IdentityModel.Tokens;
+
+namespace W9_assignment_template.Models;
 
 public abstract class Character : ICharacter
 {
@@ -11,8 +13,18 @@ public abstract class Character : ICharacter
 
     // Navigation property to Room
     public virtual Room Room { get; set; }
+
+    // Navigation property to Abilities
+    public virtual ICollection<Ability> Abilities { get; set; }
+
     public virtual void Attack(ICharacter target)
     {
         Console.WriteLine($"{Name} attacks {target.Name}!");
+    }
+
+    public void ExecuteAbility(Ability ability)
+    {
+        // Default implementation (can be overridden)
+        Console.WriteLine($"{Name} executes {ability.Name}!");
     }
 }
